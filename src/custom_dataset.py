@@ -7,22 +7,22 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from PIL import Image
 
 class CustomDataset(Dataset):
-	def __init__(self, x_train_path: str, y_train_path: str, image_folder_path: str, transform: object = None, filename_col: str = 'des_filename'):
+	def __init__(self, x_path: str, y_path: str, image_folder_path: str, transform: object = None, filename_col: str = 'des_filename'):
 		"""
 		Args:
-			x_train_path (str): Path to the CSV file containing the tabular data (including the image names).
+			x_path (str): Path to the CSV file containing the tabular data (including the image names).
 			image_folder_path (str): Path to the folder containing the images.
-			y_train_path (str): Path to the CSV file containing the target labels (matrix format for multi-label softmax).
+			y_path (str): Path to the CSV file containing the target labels (matrix format for multi-label softmax).
 			transform (object): Function to apply to the images.
 			filename_col (str): Name of the column containing the image names.
 		"""
-		self.data = pd.read_csv(x_train_path)
+		self.data = pd.read_csv(x_path)
 		self.image_folder_path = image_folder_path
 		self.filename_col = filename_col
 		self.transform = transform if transform else transforms.ToTensor()
 		
 		# Load the labels and apply one-hot encoding
-		self.labels_data = pd.read_csv(y_train_path)
+		self.labels_data = pd.read_csv(y_path)
 		self.onehot_encoder = OneHotEncoder(sparse_output=False)
 		self.labels = self.onehot_encoder.fit_transform(self.labels_data)
 		
@@ -59,7 +59,7 @@ class CustomDataset(Dataset):
 
 	def get_y_num_categories_list(self) -> List[int]:
 		"""
-		Gets the number of unique categories for each column in the y_train_path CSV file.
+		Gets the number of unique categories for each column in the y_path CSV file.
 
 		Returns:
 			List[int]: A list of integers representing the number of unique categories for each
@@ -70,7 +70,7 @@ class CustomDataset(Dataset):
 	
 	def get_x_num_categories_list(self) -> List[int]:
 		"""
-		Gets the number of unique categories for each column in the x_train_path CSV file.
+		Gets the number of unique categories for each column in the x_path CSV file.
 
 		Returns:
 			List[int]: A list of integers representing the number of unique categories for each
