@@ -8,7 +8,7 @@ from src.multimodal_interaction import MultimodalInteraction
 from src.classifier import Classifier
 
 class Handler(nn.Module):
-	def __init__(self, num_categories_list: List[int]) -> None:
+	def __init__(self, x_num_categories_list: List[int], y_num_categories_list: List[int]) -> None:
 		"""
 		Multimodal model handler that integrates image and tabular data for classification tasks.
 
@@ -20,12 +20,13 @@ class Handler(nn.Module):
 		self.embedding_dim = 1536
 		self.num_interaction_blocks = 2
 		self.num_tabular_blocks = 2
-		self.num_categories_list = num_categories_list
+		self.x_num_categories_list = x_num_categories_list
+		self.y_num_categories_list = y_num_categories_list
 		
 		self.image_encoder = ImageEncoder()
-		self.tabular_encoder = TabularEncoder(embedding_dim=self.embedding_dim, num_categories_list=self.num_categories_list, num_blocks=self.num_tabular_blocks)
+		self.tabular_encoder = TabularEncoder(embedding_dim=self.embedding_dim, num_categories_list=self.x_num_categories_list, num_blocks=self.num_tabular_blocks)
 		self.multimodal_interaction = MultimodalInteraction(embedding_dim=self.embedding_dim, num_blocks=self.num_interaction_blocks)
-		self.classifier = Classifier(interaction_embedding_dim=self.embedding_dim, num_categories_list=self.num_categories_list)
+		self.classifier = Classifier(interaction_embedding_dim=self.embedding_dim, num_categories_list=self.y_num_categories_list)
 
 	def forward(self, img, tab):
 		image_features = self.image_encoder(img)

@@ -57,7 +57,7 @@ class CustomDataset(Dataset):
 
 		return image, tabular_data, label
 
-	def get_num_categories_list(self) -> List[int]:
+	def get_y_num_categories_list(self) -> List[int]:
 		"""
 		Gets the number of unique categories for each column in the y_train_path CSV file.
 
@@ -65,5 +65,16 @@ class CustomDataset(Dataset):
 			List[int]: A list of integers representing the number of unique categories for each
 		"""
 		num_categories_list = [len(self.labels_data[col].unique()) for col in self.labels_data.columns]
+		
+		return num_categories_list
+	
+	def get_x_num_categories_list(self) -> List[int]:
+		"""
+		Gets the number of unique categories for each column in the x_train_path CSV file.
+
+		Returns:
+			List[int]: A list of integers representing the number of unique categories for each
+		"""
+		num_categories_list = [len(self.data[col].unique()) for col in self.data.columns]
 		
 		return num_categories_list
