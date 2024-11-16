@@ -13,14 +13,14 @@ class MultimodalInteraction(nn.Module):
     
     Args:
         embedding_dim (int): The dimensionality of the embeddings for both image and tabular features.
-        num_layers (int): The number of Transformer blocks (cross-attention + feed-forward) in the module.
+        num_blocks (int): The number of Transformer blocks (cross-attention + feed-forward) in the module.
     """
     
-    def __init__(self, embedding_dim, num_layers):
+    def __init__(self, embedding_dim: int, num_blocks: int):
         super(MultimodalInteraction, self).__init__()
         # Define multiple cross-attention layers, one for each layer in num_layers
         self.cross_attention_layers = nn.ModuleList([
-            nn.MultiheadAttention(embed_dim=embedding_dim, num_heads=4) for _ in range(num_layers)
+            nn.MultiheadAttention(embed_dim=embedding_dim, num_heads=4) for _ in range(num_blocks)
         ])
         
         # Define a feed-forward layer for each Transformer block
@@ -29,12 +29,12 @@ class MultimodalInteraction(nn.Module):
                 nn.Linear(embedding_dim, embedding_dim * 4),
                 nn.ReLU(),
                 nn.Linear(embedding_dim * 4, embedding_dim)
-            ) for _ in range(num_layers)
+            ) for _ in range(num_blocks)
         ])
         
         # Layer normalization for residual connections in attention and feed-forward layers
-        self.layer_norms_attn = nn.ModuleList([nn.LayerNorm(embedding_dim) for _ in range(num_layers)])
-        self.layer_norms_ff = nn.ModuleList([nn.LayerNorm(embedding_dim) for _ in range(num_layers)])
+        self.layer_norms_attn = nn.ModuleList([nn.LayerNorm(embedding_dim) for _ in range(num_blocks)])
+        self.layer_norms_ff = nn.ModuleList([nn.LayerNorm(embedding_dim) for _ in range(num_blocks)])
 
     def forward(self, image_features, tabular_features):
         """
