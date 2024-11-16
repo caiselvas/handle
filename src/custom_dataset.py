@@ -75,6 +75,6 @@ class CustomDataset(Dataset):
 		Returns:
 			List[int]: A list of integers representing the number of unique categories for each
 		"""
-		num_categories_list = [len(self.data[col].unique()) for col in self.data.columns]
+		num_categories_list = [len(self.data[col].unique()) for col in self.data.columns if col != self.filename_col]
 		
 		return num_categories_list
