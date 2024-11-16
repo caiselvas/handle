@@ -2,6 +2,8 @@ from typing import List
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
+from torchvision import transforms
+
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
 
@@ -16,8 +18,8 @@ class CustomDataset(Dataset):
         """
         self.data = pd.read_csv(csv_file_path)
         self.image_folder_path = image_folder_path
-        self.transform = transform
         self.filename_col = filename_col
+        self.transform = transform if transform else transforms.ToTensor()
         
         # Remove the filename column and store the rest of the tabular data
         self.tabular_data = self.data.drop(columns=[self.filename_col])
@@ -48,8 +50,8 @@ class CustomDataset(Dataset):
             image = self.transform(image)
         
         # Get tabular data for the current index
-        tabular_data = self.tabular_data[idx]
-        
+        tabular_data = torch.tensor(self.tabular_data[idx], dtype=torch.long)
+
         return image, tabular_data
 
     def get_num_categories_list(self) -> List[int]:
