@@ -47,6 +47,10 @@ class MultimodalInteraction(nn.Module):
         Returns:
             Tensor: Refined image features, with shape [batch_size, embedding_dim].
         """
+        # Ensure inputs are on the same device as model parameters
+        device = next(self.parameters()).device
+        image_features = image_features.to(device)
+        tabular_features = tabular_features.to(device)
         
         # Prepare image features as Queries (Q) and expand for cross-attention
         image_features = image_features.unsqueeze(1).transpose(0, 1)  # Shape: [1, batch_size, embedding_dim]

@@ -20,6 +20,10 @@ class Classifier(nn.Module):
 		)
 
 	def forward(self, x): 
+		# Ensure input is on the same device as model parameters
+		device = next(self.parameters()).device
+		x = x.to(device)
+		
 		outputs = [nn.functional.softmax(layer(x), dim=1) for layer in self.output_layers]
 		return outputs
 
