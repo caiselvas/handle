@@ -52,7 +52,8 @@ class CustomDataset(Dataset):
 			image = self.transform(image)
 		
 		# Get tabular data and label for the current index
-		tabular_data = torch.tensor(self.tabular_data[idx], dtype=torch.long)
+		tabular_data = self.tabular_data[idx].clone().detach().to(torch.long)
+
 		label = torch.tensor(self.labels[idx], dtype=torch.float)
 
 		return image, tabular_data, label
