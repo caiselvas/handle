@@ -1,21 +1,21 @@
-import torch
+from typing import List
+
 import torch.nn as nn
 
-
-
 class Classifier(nn.Module):
-	def __init__(self, interaction_embedding_dim, output_dims):
+	def __init__(self, interaction_embedding_dim: int, num_categories_list: List[int]):
+		"""
+		Args:
+			interaction_embedding_dim (int): The dimension of the output vector from the multimodal interaction module
+			num_categories_list (List[int]): A list of integers representing the number of categories for each categorical feature
+		"""
 		super(Classifier, self).__init__()
 		
-		self.l1 = nn.Linear(interaction_embedding_dim, 512)
-		self.l2 = nn.Linear(512, 256)
+		self.output_layers = nn.ModuleList(
+			[nn.Linear(interaction_embedding_dim, num_classes) for num_classes in num_categories_list]
+		)
+
+	def forward(self, x): 
+		outputs = [nn.functional.softmax(layer(x), dim=1) for layer in self.output_layers]
 		
-		self.output_layers = nn.ModuleList([nn.Linear(256, output_dim) for output_dim in output_dims])
-		
-	def forward(self, x):
-		x = torch.relu(self.l1(x))
-		x = torch.relu(self.l2(x))
-		
-		outputs = [torch.softmax(layer(x), dim=1) for layer in self.output_layers]
 		return outputs
-		
