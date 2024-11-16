@@ -18,13 +18,13 @@ class ImageEncoder(nn.Module):
     def forward(self, images):
         # Process images through the pre-trained model
         inputs = self.processor(images=images, return_tensors="pt", do_rescale=False)
+        
+        # Move inputs to the same device as the model
+        device = next(self.model.parameters()).device
+        for key in inputs:
+            inputs[key] = inputs[key].to(device)
+
         outputs = self.model(**inputs)
         # Extract and return image embeddings
         embeddings = outputs.last_hidden_state[:, 0, :]
         return embeddings
-
-"""
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-inputs = {k: v.to(device) for k, v in inputs.items()}
-"""

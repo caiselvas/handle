@@ -31,6 +31,9 @@ class TabularEncoder(nn.Module):
         self.layer_norms = nn.ModuleList([nn.LayerNorm(embedding_dim) for _ in range(num_blocks)])
 
     def forward(self, x):
+        device = next(self.parameters()).device
+        x = x.to(device)
+    
         # Generate embeddings for each categorical feature and add column-specific embeddings
         embedded_columns = [emb(x[:, i]) + self.column_embeddings[i] for i, emb in enumerate(self.embeddings)]
         
