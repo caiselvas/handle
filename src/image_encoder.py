@@ -17,7 +17,7 @@ class ImageEncoder(nn.Module):
 
     def forward(self, images):
         # Process images through the pre-trained model
-        inputs = self.processor(images=images, return_tensors="pt")
+        inputs = self.processor(images=images, return_tensors="pt", do_rescale=False)
         outputs = self.model(**inputs)
         # Extract and return image embeddings
         embeddings = outputs.last_hidden_state[:, 0, :]
