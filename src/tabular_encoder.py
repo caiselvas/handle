@@ -23,7 +23,7 @@ class TabularEncoder(nn.Module):
         
         # Multiple Transformer blocks for inter-column attention
         self.transformer_layers = nn.ModuleList([
-            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=4)
+            nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=8)
             for _ in range(num_blocks)
         ])
         
