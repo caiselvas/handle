@@ -3,7 +3,10 @@ from typing import List
 import torch.nn as nn
 
 class Classifier(nn.Module):
-	def __init__(self, interaction_embedding_dim: int, num_categories_list: List[int]):
+	def __init__(self, 
+			interaction_embedding_dim: int, 
+			num_categories_list: List[int]
+			) -> None:
 		"""
 		Args:
 			interaction_embedding_dim (int): The dimension of the output vector from the multimodal interaction module
