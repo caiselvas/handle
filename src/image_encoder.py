@@ -10,13 +10,16 @@ class ImageEncoder(nn.Module):
         super(ImageEncoder, self).__init__()
         self.processor = AutoImageProcessor.from_pretrained("microsoft/swinv2-large-patch4-window12-192-22k")
         self.model = AutoModel.from_pretrained("microsoft/swinv2-large-patch4-window12-192-22k")
+        
+        # Freeze the Swin Transformer model
+        for param in self.model.parameters():
+            param.requires_grad = False
 
     def forward(self, images):
-        # Procesar las imágenes
+        # Process images through the pre-trained model
         inputs = self.processor(images=images, return_tensors="pt")
-        # Obtener las salidas del modelo
         outputs = self.model(**inputs)
-        # Extraer las representaciones de las imágenes
+        # Extract and return image embeddings
         embeddings = outputs.last_hidden_state[:, 0, :]
         return embeddings
 
