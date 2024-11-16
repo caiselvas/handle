@@ -20,7 +20,7 @@ class MultimodalInteraction(nn.Module):
         super(MultimodalInteraction, self).__init__()
         # Define multiple cross-attention layers, one for each layer in num_layers
         self.cross_attention_layers = nn.ModuleList([
-            nn.MultiheadAttention(embed_dim=embedding_dim, num_heads=4) for _ in range(num_blocks)
+            nn.MultiheadAttention(embed_dim=embedding_dim, num_heads=8) for _ in range(num_blocks)
         ])
         
         # Define a feed-forward layer for each Transformer block
