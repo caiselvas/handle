@@ -1,34 +1,7 @@
 import torch
 import torch.nn as nn
-from transformers import ViTModel
-
-# Image Encoder using Vision Transformer
-class ImageEncoder(nn.Module):
-    def __init__(self):
-        super(ImageEncoder, self).__init__()
-        # Load a pre-trained Vision Transformer
-        self.vit = ViTModel.from_pretrained("google/vit-base-patch16-224-in21k")
-
-    def forward(self, x):
-        # Extract the [CLS] token as the image representation
-        return self.vit(x).last_hidden_state[:, 0]  # Shape: [batch_size, hidden_dim]
-
-# Tabular Encoder for categorical data
-class TabularEncoder(nn.Module):
-    def __init__(self, num_categories, embedding_dim):
-        super(TabularEncoder, self).__init__()
-        # Create an embedding layer for each categorical feature
-        self.embeddings = nn.ModuleList([nn.Embedding(cat_size, embedding_dim) for cat_size in num_categories])
-        # Transformer layer to capture inter-column dependencies
-        self.transformer_layer = nn.TransformerEncoderLayer(d_model=embedding_dim, nhead=4)
-
-    def forward(self, x):
-        # Generate embeddings for each categorical feature
-        embedded_columns = [emb(x[:, i]) for i, emb in enumerate(self.embeddings)]
-        # Stack all embeddings to form a sequence of tokens (each representing a column)
-        x = torch.stack(embedded_columns, dim=1)  # Shape: [batch_size, num_columns, embedding_dim]
-        # Apply Transformer layer for inter-column attention
-        return self.transformer_layer(x)  # Shape: [batch_size, num_columns, embedding_dim]
+from src.ImageEncoder import ImageEncoder
+from src.TabularEncoder import TabularEncoder
 
 # Multimodal Interaction Module with Cross Attention
 class MultimodalInteraction(nn.Module):
