@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #1f1f1f; /* Fondo ligeramente más claro para el encabezado */
+}
+
+header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3em;
+    margin: 0;
+}
+
+header .slogan {
+    font-size: 1.2em;
+    color: #cccccc; /* Color gris claro para el eslogan */
+    margin-top: 5px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+form {
+    background-color: #1f1f1f; /* Fondo del formulario */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select, input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333333; /* Fondo de los campos */
+    color: #ffffff; /* Texto blanco */
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #121212; /* Texto oscuro */
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #cccccc; /* Fondo gris claro al pasar el cursor */
+    color: #121212; /* Texto oscuro */
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    color: #ff6b6b; /* Color rojo para mensajes de flash */
+}
+
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #1f1f1f; /* Fondo del resultado */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
+    text-align: center;
+}
+
+.result img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #1f1f1f; /* Fondo del pie de página */
+    color: #cccccc; /* Texto gris claro */
+}

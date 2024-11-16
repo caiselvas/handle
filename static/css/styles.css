@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Playfair Display', serif;
+    background-color: #121212; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.content {
+    text-align: center;
+    border: 2px solid #ffffff; /* Borde blanco */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Sombra suave */
+    text-decoration: none; /* Eliminar subrayado del enlace */
+    color: inherit; /* Mantener el color del texto */
+}
+
+.title {
+    font-size: 4em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slogan {
+    font-size: 1.5em;
+    margin: 10px 0 0;
+    font-style: italic;
+    color: #cccccc; /* Color gris claro para el eslogan */
+}
