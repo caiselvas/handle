@@ -1,5 +1,6 @@
 from typing import List
 
+import torch
 import torch.nn as nn
 
 class Classifier(nn.Module):
@@ -20,5 +21,6 @@ class Classifier(nn.Module):
 
 	def forward(self, x): 
 		outputs = [nn.functional.softmax(layer(x), dim=1) for layer in self.output_layers]
-		
 		return outputs
+
+
