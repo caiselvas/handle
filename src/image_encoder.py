@@ -1,14 +1,27 @@
 import torch
 import torch.nn as nn
-from transformers import ViTModel
+from transformers import AutoImageProcessor, AutoModel
+from PIL import Image
 
-# Image Encoder using Vision Transformer
+
+
 class ImageEncoder(nn.Module):
     def __init__(self):
         super(ImageEncoder, self).__init__()
-        # Load a pre-trained Vision Transformer
-        self.vit = ViTModel.from_pretrained("google/vit-base-patch16-224-in21k")
+        self.processor = AutoImageProcessor.from_pretrained("microsoft/swinv2-large-patch4-window12-192-22k")
+        self.model = AutoModel.from_pretrained("microsoft/swinv2-large-patch4-window12-192-22k")
 
-    def forward(self, x):
-        # Extract the [CLS] token as the image representation
-        return self.vit(x).last_hidden_state[:, 0]  # Shape: [batch_size, hidden_dim]
+    def forward(self, images):
+        # Procesar las imágenes
+        inputs = self.processor(images=images, return_tensors="pt")
+        # Obtener las salidas del modelo
+        outputs = self.model(**inputs)
+        # Extraer las representaciones de las imágenes
+        embeddings = outputs.last_hidden_state[:, 0, :]
+        return embeddings
+
+"""
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+inputs = {k: v.to(device) for k, v in inputs.items()}
+"""
