@@ -4,7 +4,7 @@ from transformers import AutoImageProcessor, AutoModel
 from PIL import Image
 
 
-
+# Image Encoder using Swin Transformer V2 Large model from Microsoft
 class ImageEncoder(nn.Module):
     def __init__(self):
         super(ImageEncoder, self).__init__()
