@@ -65,7 +65,7 @@ class CustomDataset(Dataset):
 		# Get tabular data and label for the current index
 		tabular_data = self.tabular_data[idx].clone().detach().to(torch.long)
 
-		label = torch.tensor(self.labels[idx], dtype=torch.float)
+		label = self.labels[idx].clone().detach().to(torch.float)
 
 		return image, tabular_data, label
 
