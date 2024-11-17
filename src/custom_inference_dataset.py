@@ -93,4 +93,4 @@ class CustomInferenceDataset(Dataset):
 		Returns:
 			str: Original value of the one-hot encoded vector.
 		"""
-		return self.onehot_encoders[col].inverse_transform([onehot.numpy()])[0]
+		return self.onehot_encoders[col].inverse_transform([onehot])[0]
