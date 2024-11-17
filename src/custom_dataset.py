@@ -79,3 +79,12 @@ class CustomDataset(Dataset):
 		num_categories_list = [len(self.data[col].unique()) for col in self.data.columns if col != self.filename_col]
 		
 		return num_categories_list
+	
+	def get_label_encoders(self) -> dict:
+		"""
+		Gets the label encoders for each non-numeric column in the x_path CSV file.
+
+		Returns:
+			dict: A dictionary mapping column names to their corresponding LabelEncoders.
+		"""
+		return self.label_encoders
