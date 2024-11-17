@@ -29,6 +29,7 @@ class CustomInferenceDataset(Dataset):
 		self.test_id_col = test_id_col
 		self.attribute_name_col = attribute_name_col
 		self.transform = transforms.ToTensor()
+		self.image_shape = None
 
 		# Process and encode non-numeric columns in the tabular data
 		self.tabular_data = self.data.drop(columns=[self.filename_col, self.test_id_col, self.attribute_name_col])
@@ -47,10 +48,18 @@ class CustomInferenceDataset(Dataset):
 		return len(self.data)
 	
 	def __getitem__(self, idx):
-		img_path = f"{self.image_folder_path}/{self.image_names[idx]}"
-		image = Image.open(img_path).convert("RGB")
-		image = self.transform(image)
-		
+		try:
+			img_path = f"{self.image_folder_path}/{self.image_names[idx]}"
+			image = Image.open(img_path).convert("RGB")
+			image = self.transform(image)
+
+			if self.image_shape is None:
+				self.image_shape = image.shape
+
+		except Exception as e:
+			print(f"Error loading image at index {idx}: {e}")
+			image = torch.zeros(self.image_shape, dtype=torch.float32) if self.image_shape else torch.zeros((3, 224, 224), dtype=torch.float32)
+
 		# Get tabular data and label for the current index
 		tabular_data = self.tabular_data[idx].clone().detach().to(torch.long)
 
