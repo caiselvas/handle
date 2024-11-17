@@ -32,7 +32,6 @@ class CustomInferenceDataset(Dataset):
 
 		# Process and encode non-numeric columns in the tabular data
 		self.tabular_data = self.data.drop(columns=[self.filename_col, self.test_id_col, self.attribute_name_col])
-		self.label_encoders = {}
 		for col in self.tabular_data.columns:
 			if self.tabular_data[col].dtype == 'object':  # Non-numeric columns
 				le = self.label_encoders[col]
