@@ -61,6 +61,7 @@ footer {
 .right-section {
     background-color: #1f1f1f;
     margin-top: 10px; /* Espacio para mantener simetría */
+    position: relative;
 }
 
 .divider {
@@ -75,11 +76,16 @@ footer {
     margin: 20px 0;
 }
 
-.form-group {
+.form-group.upload-section {
     margin-bottom: 20px;
+    position: absolute;
+    top: 10%; /* Ajusta la posición del texto */
+    left: 0;
+    right: 0;
 }
 
-label {
+label.upload-label {
+    text-align: center;
     display: block;
     margin-bottom: 10px;
 }
@@ -122,4 +128,3 @@ button:hover {
     font-size: 0.8em; /* Texto reducido */
     color: #121212; /* Texto negro */
 }
-
