@@ -29,32 +29,37 @@ class CustomInferenceDataset(Dataset):
 		self.test_id_col = test_id_col
 		self.attribute_name_col = attribute_name_col
 		self.transform = transforms.ToTensor()
-
-		self.tabular_data = torch.tensor(self.tabular_data.values, dtype=torch.long)
+		self.image_shape = None
 
 		# Process and encode non-numeric columns in the tabular data
 		self.tabular_data = self.data.drop(columns=[self.filename_col, self.test_id_col, self.attribute_name_col])
-		self.label_encoders = {}
 		for col in self.tabular_data.columns:
 			if self.tabular_data[col].dtype == 'object':  # Non-numeric columns
 				le = self.label_encoders[col]
 				self.tabular_data[col] = le.transform(self.tabular_data[col])
-				self.label_encoders[col] = le
 
 		self.tabular_data = torch.tensor(self.tabular_data.values, dtype=torch.long)
 
 		self.image_names = self.data[self.filename_col].values
-		self.attribute_categories = self.data[self.test_id_col].values
-		self.test_ids = self.data[self.attribute_name_col].values
+		self.attribute_categories = self.data[self.attribute_name_col].values
+		self.test_ids = self.data[self.test_id_col].values
 
 	def __len__(self):
 		return len(self.data)
 	
 	def __getitem__(self, idx):
-		img_path = f"{self.image_folder_path}/{self.image_names[idx]}"
-		image = Image.open(img_path).convert("RGB")
-		image = self.transform(image)
-		
+		try:
+			img_path = f"{self.image_folder_path}/{self.image_names[idx]}"
+			image = Image.open(img_path).convert("RGB")
+			image = self.transform(image)
+
+			if self.image_shape is None:
+				self.image_shape = image.shape
+
+		except Exception as e:
+			print(f"Error loading image at index {idx}: {e}")
+			image = torch.zeros(self.image_shape, dtype=torch.float32) if self.image_shape else torch.zeros((3, 224, 224), dtype=torch.float32)
+
 		# Get tabular data and label for the current index
 		tabular_data = self.tabular_data[idx].clone().detach().to(torch.long)
 
@@ -88,4 +93,4 @@ class CustomInferenceDataset(Dataset):
 		Returns:
 			str: Original value of the one-hot encoded vector.
 		"""
-		return self.onehot_encoders[col].inverse_transform([onehot.numpy()])[0]
+		return self.onehot_encoders[col].inverse_transform([onehot])[0]

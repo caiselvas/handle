@@ -1,35 +1,29 @@
 import torch
 import torch.nn as nn
-from transformers import AutoImageProcessor, AutoModel
-from PIL import Image
 from transformers import CLIPProcessor, CLIPModel
 
-
-# Image Encoder using Swin Transformer V2 Large model from Microsoft
+# Image Encoder using Fashion CLIP model
 class ImageEncoder(nn.Module):
     def __init__(self):
         super(ImageEncoder, self).__init__()
-        # Initialize the CLIP processor and model
-        self.processor = CLIPProcessor.from_pretrained("laion/CLIP-ViT-B-32-laion2B-s34B-b79K")
-        self.model = CLIPModel.from_pretrained("laion/CLIP-ViT-B-32-laion2B-s34B-b79K")
         
-        # Freeze the CLIP model parameters
+        # Cargar el procesador y el modelo CLIP específicos para FashionCLIP
+        self.processor = CLIPProcessor.from_pretrained("patrickjohncyh/fashion-clip")
+        self.model = CLIPModel.from_pretrained("patrickjohncyh/fashion-clip")
+        
+        # Congelar los parámetros del modelo CLIP
         for param in self.model.parameters():
             param.requires_grad = False
 
     def forward(self, images):
-        # Preprocess the images with the CLIP processor
-        inputs = self.processor(images=images, return_tensors="pt")
+        # Procesar las imágenes usando el procesador CLIP
+        inputs = self.processor(images=images, return_tensors="pt", do_rescale=False)
         
-        # Move inputs to the same device as the model
+        # Mover inputs al dispositivo adecuado
         device = next(self.model.parameters()).device
         for key in inputs:
             inputs[key] = inputs[key].to(device)
 
-        # Pass inputs through the CLIP model
-        outputs = self.model.get_image_features(pixel_values=inputs["pixel_values"])
-        
-        # Normalize embeddings (common practice with CLIP embeddings)
-        embeddings = outputs / outputs.norm(dim=-1, keepdim=True)
-        
+        # Obtener características de la imagen usando el modelo CLIP
+        embeddings = self.model.get_image_features(**inputs)
         return embeddings
