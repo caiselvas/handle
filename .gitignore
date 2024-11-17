@@ -3,3 +3,4 @@ images_sample/
 __pycache__/
 .env
 .venv/
+models/
