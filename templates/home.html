@@ -7,46 +7,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
 </head>
 <body>
-    <header>
+    <header class="header-bar">
         <h1>Handle</h1>
         <p class="slogan">Overhauling Fashion</p>
     </header>
-    <main>
-        <form action="{{ url_for('home') }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="feature1">Selecciona tu estilo preferido:</label>
-                <select id="feature1" name="feature1">
-                    <option value="casual">Casual</option>
-                    <option value="formal">Formal</option>
-                    <option value="deportivo">Deportivo</option>
-                    <!-- Agrega más opciones según sea necesario -->
-                </select>
+    <main class="container">
+        <!-- Sección izquierda -->
+        <section class="left-section">
+            <form>
+                <div class="form-group">
+                    <label for="feature1">Selecciona tu estilo preferido:</label>
+                    <select id="feature1" name="feature1">
+                        <option value="casual">Casual</option>
+                        <option value="formal">Formal</option>
+                        <option value="deportivo">Deportivo</option>
+                    </select>
+                </div>
+                <!-- Agrega más preguntas aquí -->
+            </form>
+        </section>
+
+        <!-- Línea divisoria -->
+        <div class="divider"></div>
+
+        <!-- Sección derecha -->
+        <section class="right-section">
+            <form action="{{ url_for('home') }}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="image">Sube una imagen de tu prenda:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <!-- Barra horizontal -->
+                <div class="horizontal-divider"></div>
+                <button type="submit">Enviar</button>
+            </form>
+            {% if image_url %}
+            <div class="result">
+                <h2>Imagen subida:</h2>
+                <img src="{{ url_for('static', filename=image_url.split('static/')[-1]) }}" alt="Imagen subida">
             </div>
-            <!-- Repite bloques similares para otras preguntas -->
-            <div class="form-group">
-                <label for="image">Sube una imagen de tu prenda:</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-            <button type="submit">Enviar</button>
-        </form>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-                </ul>
             {% endif %}
-        {% endwith %}
-        {% if image_url %}
-        <div class="result">
-            <h2>Imagen Subida:</h2>
-            <img src="{{ url_for('static', filename=image_url.split('static/')[-1]) }}" alt="Imagen subida">
-        </div>
-        {% endif %}
+        </section>
     </main>
-    <footer>
-        <p>&copy; 2024 Handle. Overhauling Fashion with MANGO.</p>
+    <footer class="footer-bar">
+        <p>&copy; 2024 Handle & MANGO.</p>
     </footer>
 </body>
 </html>

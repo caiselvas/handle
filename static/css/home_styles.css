@@ -1,50 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body {
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #121212; /* Fondo oscuro */
-    color: #ffffff; /* Texto blanco */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-header {
+body {
+    height: 100vh;
+    font-family: 'Playfair Display', serif;
+    background-color: #121212; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    overflow: hidden; /* Elimina las barras laterales */
+    display: flex;
+    flex-direction: column;
+}
+
+.header-bar, .footer-bar {
+    background-color: #ffffff; /* Barras blancas */
+    color: #121212; /* Texto negro */
+    border-bottom: 2px solid #121212; /* Línea divisoria negra */
     text-align: center;
-    padding: 20px;
-    background-color: #1f1f1f; /* Fondo ligeramente más claro para el encabezado */
+    padding: 5px 0; /* Menos espacio en el header */
 }
 
 header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    margin: 0;
+    font-size: 1.5em; /* Título más pequeño */
+    margin: 5px 0; /* Espacio reducido entre título y margen */
 }
 
 header .slogan {
-    font-size: 1.2em;
-    color: #cccccc; /* Color gris claro para el eslogan */
-    margin-top: 5px;
+    font-size: 0.8em; /* Texto más pequeño */
+    color: #333333;
 }
 
-main {
-    flex: 1;
+footer {
+    text-align: center;
+    font-size: 0.8em; /* Tamaño de texto reducido */
+}
+
+.container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    height: calc(100vh - 120px); /* Ajusta el tamaño del main para incluir header y footer */
+    margin-top: 10px; /* Espacio superior para la barra divisoria */
 }
 
-form {
-    background-color: #1f1f1f; /* Fondo del formulario */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
-    width: 100%;
-    max-width: 600px;
+.left-section, .right-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-section {
+    background-color: #1f1f1f;
+    margin-top: 10px; /* Espacio entre el borde superior y la barra lateral */
+}
+
+.right-section {
+    background-color: #1f1f1f;
+    margin-top: 10px; /* Espacio para mantener simetría */
+}
+
+.divider {
+    width: 2px;
+    background-color: #ffffff;
+    margin: 0 10px; /* Espacio entre el margen y la barra */
+}
+
+.horizontal-divider {
+    height: 2px;
+    background-color: #ffffff; /* Barra horizontal */
+    margin: 20px 0;
 }
 
 .form-group {
@@ -53,63 +81,45 @@ form {
 
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 select, input[type="file"] {
     width: 100%;
     padding: 10px;
+    background-color: #333333;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
-    background-color: #333333; /* Fondo de los campos */
-    color: #ffffff; /* Texto blanco */
 }
 
 button {
-    width: 100%;
     padding: 15px;
     border: none;
     border-radius: 5px;
-    background-color: #ffffff; /* Fondo blanco */
-    color: #121212; /* Texto oscuro */
+    background-color: #ffffff;
+    color: #121212;
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #cccccc; /* Fondo gris claro al pasar el cursor */
-    color: #121212; /* Texto oscuro */
-}
-
-.flashes {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 20px;
-    color: #ff6b6b; /* Color rojo para mensajes de flash */
-}
-
-.result {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #1f1f1f; /* Fondo del resultado */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
-    text-align: center;
+    background-color: #cccccc;
 }
 
 .result img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
 }
 
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #1f1f1f; /* Fondo del pie de página */
-    color: #cccccc; /* Texto gris claro */
+.footer-bar p {
+    margin: 0;
+    font-size: 0.8em; /* Texto reducido */
+    color: #121212; /* Texto negro */
 }
+
