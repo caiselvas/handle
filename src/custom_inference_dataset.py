@@ -30,8 +30,6 @@ class CustomInferenceDataset(Dataset):
 		self.attribute_name_col = attribute_name_col
 		self.transform = transforms.ToTensor()
 
-		self.tabular_data = torch.tensor(self.tabular_data.values, dtype=torch.long)
-
 		# Process and encode non-numeric columns in the tabular data
 		self.tabular_data = self.data.drop(columns=[self.filename_col, self.test_id_col, self.attribute_name_col])
 		self.label_encoders = {}
@@ -39,7 +37,6 @@ class CustomInferenceDataset(Dataset):
 			if self.tabular_data[col].dtype == 'object':  # Non-numeric columns
 				le = self.label_encoders[col]
 				self.tabular_data[col] = le.transform(self.tabular_data[col])
-				self.label_encoders[col] = le
 
 		self.tabular_data = torch.tensor(self.tabular_data.values, dtype=torch.long)
 
