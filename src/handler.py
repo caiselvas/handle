@@ -17,7 +17,7 @@ class Handler(nn.Module):
 		"""
 		super(Handler, self).__init__()
 
-		self.embedding_dim = 1536
+		self.embedding_dim = 512
 		self.num_interaction_blocks = 2
 		self.num_tabular_blocks = 2
 		self.x_num_categories_list = x_num_categories_list
