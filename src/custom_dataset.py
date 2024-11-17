@@ -1,6 +1,7 @@
 from typing import List
 import pandas as pd
 import torch
+import numpy as np
 from torch.utils.data import Dataset
 from torchvision import transforms
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
@@ -23,9 +24,19 @@ class CustomDataset(Dataset):
 		
 		# Load the labels and apply one-hot encoding
 		self.labels_data = pd.read_csv(y_path)
-		self.onehot_encoder = OneHotEncoder(sparse_output=False)
-		self.labels = self.onehot_encoder.fit_transform(self.labels_data)
+		self.onehot_encoders = {}
+		onehot_encoded_labels = []
 		
+		# Apply OneHotEncoder separately to each column and concatenate results
+		for col in self.labels_data.columns:
+			encoder = OneHotEncoder(sparse_output=False)
+			onehot_encoded_col = encoder.fit_transform(self.labels_data[[col]])
+			onehot_encoded_labels.append(onehot_encoded_col)
+			self.onehot_encoders[col] = encoder  # Store encoder for each column if needed for inverse transform
+
+		# Concatenate one-hot encoded columns
+		self.labels = torch.tensor(np.concatenate(onehot_encoded_labels, axis=1), dtype=torch.float)
+	
 		# Process and encode non-numeric columns in the tabular data
 		self.tabular_data = self.data.drop(columns=[self.filename_col])
 		self.label_encoders = {}
@@ -88,3 +99,12 @@ class CustomDataset(Dataset):
 			dict: A dictionary mapping column names to their corresponding LabelEncoders.
 		"""
 		return self.label_encoders
+	
+	def get_onehot_encoders(self) -> dict:
+		"""
+		Gets the one-hot encoders for each column in the y_path CSV file.
+
+		Returns:
+			dict: A dictionary mapping column names to their corresponding OneHotEncoders.
+		"""
+		return self.onehot_encoders
