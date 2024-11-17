@@ -41,8 +41,8 @@ class CustomInferenceDataset(Dataset):
 		self.tabular_data = torch.tensor(self.tabular_data.values, dtype=torch.long)
 
 		self.image_names = self.data[self.filename_col].values
-		self.attribute_categories = self.data[self.test_id_col].values
-		self.test_ids = self.data[self.attribute_name_col].values
+		self.attribute_categories = self.data[self.attribute_name_col].values
+		self.test_ids = self.data[self.test_id_col].values
 
 	def __len__(self):
 		return len(self.data)
